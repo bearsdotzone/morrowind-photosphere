@@ -1,0 +1,73 @@
+<head>
+    <!-- for optimal display on high DPI devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.min.css" />
+</head>
+
+<body style="margin: 0px;">
+<!-- the viewer container must have a defined size -->
+<div id="viewer" style="width: 100vw; height: 100vh;"></div>
+
+<script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three/build/three.module.js",
+            "@photo-sphere-viewer/core": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.module.js",
+            "@photo-sphere-viewer/cubemap-adapter": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/cubemap-adapter/index.module.js",
+            "@photo-sphere-viewer/equirectangular-tiles-adapter": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/equirectangular-tiles-adapter/index.module.js"
+        }
+    }
+</script>
+
+<script type="module">
+    import { Viewer } from '@photo-sphere-viewer/core';
+    import { CubemapAdapter } from '@photo-sphere-viewer/cubemap-adapter';
+    import { EquirectangularTilesAdapter } from '@photo-sphere-viewer/equirectangular-tiles-adapter';
+
+    // const viewer = new Viewer({
+    //     adapter: CubemapAdapter,
+    //     container: document.querySelector('#viewer'),
+    //     panorama: {
+    //         type: 'stripe',
+    //         path: 'cubemap.png',
+    //         flipTopBottom: true,
+    //         order: ['left', 'front', 'right', 'back', 'bottom', 'top'],
+    //     },
+    // });
+
+    // const viewer = new Viewer({
+    //     container: document.querySelector('#viewer'),
+    //     panorama: 'test046.png',
+    //     panoData: {
+    //         fullWidth: 10000,
+    //         fullHeight: 5000,
+    //         croppedWidth: 10000,
+    //         croppedHeight: 5000,
+    //     },
+    // });
+
+    const viewer = new Viewer({
+        adapter: EquirectangularTilesAdapter,
+        container: document.querySelector('#viewer'),
+        // panorama: 'test046.png',
+        panorama: {
+            width: 10000,
+            height: 5000,
+            cols: 16,
+            rows: 8,
+            baseUrl: 'test046-small.png',
+            tileUrl: (col, row) => {
+                return `tiles/tile-${row*16+col}.png`;
+            },
+        }
+        // panoData: {
+        //     fullWidth: 10000,
+        //     fullHeight: 5000,
+        //     croppedWidth: 10000,
+        //     croppedHeight: 5000,
+        // },
+    });
+</script>
+
+</body>
